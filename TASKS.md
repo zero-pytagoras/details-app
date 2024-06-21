@@ -1,6 +1,7 @@
 - Create docker- compose that will use application and postgres containers for saving data
     - Initialize postgresql container
     - Take data from app and insert it in to database (postgresql)
+    - Verify that data is saved in db
 - Create build.sh script that will automate container builds
     - Create bash functions that will enable container builds for development process
 - Document everything under README.md
