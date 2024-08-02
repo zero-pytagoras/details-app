@@ -48,9 +48,6 @@ pipeline{
         }
     }// comment to check things
     post {
-        unsuccessful{   
-            cleanWs cleanWhenSuccess: false
-        }
         success{
             sh""""
                 docker save silentmobius/details-app:latest -o details_app_docker.latest.tgz
