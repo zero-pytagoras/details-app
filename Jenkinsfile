@@ -11,7 +11,7 @@ pipeline{
                 sh'''
                     export PATH=$PATH:~/.local/bin
                     sudo apt-get update
-                    sudo apt-get install -y wget curl python3 python3-poetry
+                    sudo apt-get install -y wget curl python3 python3-poetry python3-pylint
                     poetry install
                     
                     curl -L get.docker.com| sudo bash 
