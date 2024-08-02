@@ -48,7 +48,7 @@ pipeline{
                 ''' 
             }
         }
-    }
+    }// comment to check things
     post {
         unsuccessful{   
             cleanWs cleanWhenSuccess: false
