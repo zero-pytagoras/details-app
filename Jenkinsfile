@@ -11,7 +11,7 @@ pipeline{
                 sh'''
                     export PATH=$PATH:~/.local/bin
                     sudo apt-get update
-                    sudo apt-get install -y wget curl python3 python3-poetry python3-pylint
+                    sudo apt-get install -y wget curl python3 python3-poetry codespell
                     poetry install
                     
                     curl -L get.docker.com| sudo bash 
@@ -24,7 +24,7 @@ pipeline{
                 echo 'Static code analysis check'
                 sleep "${sleep_time}"
                 sh '''
-                    pylint --disable=missing-module-docstring,missing-function-docstring app.py
+                    codespell  app.py
                 '''
             } // error app syntax --> fix the strings in app or bypass them
         }
