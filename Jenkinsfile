@@ -2,6 +2,12 @@ pipeline{
     agent {label 'workers'} // needs to have ssh agent
     parameters{
         string(name: 'sleep_time', defaultValue:'2', description:'time to sleep')
+        string(name: 'UNAME', defaultValue:'silentmobius', description:'docker_username')
+        string(name: 'PASSWD', description:'docker_password')
+        string(name: 'docker_image_name', defaultValue:'details_app', description:'docker image name')
+        string(name: 'docker_image_version', defaultValue:'latest', description:'docker image version')
+        string(name: 'registry_user', defaultValue:'silentmobius', description:'docker hub user')
+        
     }
     stages{
         stage('Pre-Build'){
@@ -39,18 +45,18 @@ pipeline{
             steps{
                 echo 'Testing'
                 sleep "${sleep_time}"
-                sh'''
-                    sudo docker login -u silentmobius -p m4k3!Tw0rk 
-                    sudo docker tag details-app:latest silentmobius/details-app:latest 
-                    sudo docker push silentmobius/details-app:latest
-                ''' 
+                sh"""
+                    sudo docker login -u ${UNAME} -p ${PASSWD} 
+                    sudo docker tag ${docker_image_name}:${docker_image_version} ${registry_user}/${docker_image_name}:${docker_image_version} 
+                    sudo docker push ${registry_user}/${docker_image_name}:${docker_image_version} 
+                """ 
             }
         }
     }// comment to check things
     post {
         success{
             sh""""
-                docker save silentmobius/details-app:latest -o details_app_docker.latest.tgz
+                docker save ${registry_user}/${docker_image_name}:${docker_image_version}  -o "${docker_image_name}:${docker_image_version}.tgz"
             """
             archiveArtifacts artifacts: 'details_app_docker.latest.tgz', followSymlinks: false, onlyIfSuccessful: true      
         }
