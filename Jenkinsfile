@@ -12,7 +12,7 @@ pipeline{
                     export PATH=$PATH:~/.local/bin
                     sudo apt-get update
                     sudo apt-get install -y wget curl python3 python3-poetry
-                    poetry install pyproject.toml
+                    poetry install
                     
                     curl -L get.docker.com| sudo bash 
 
