@@ -31,7 +31,7 @@ pipeline{
                 echo 'Building the Project'
                 sleep "${sleep_time}"
                 sh '''
-                    docker build -t details-app:latest .
+                    sudo docker build -t details-app:latest .
                 '''
             } // error with builds clean up 
         }
@@ -40,9 +40,9 @@ pipeline{
                 echo 'Testing'
                 sleep "${sleep_time}"
                 sh'''
-                    docker login -u silentmobius -p m4k3!Tw0rk 
-                    docker tag details-app:latest silentmobius/details-app:latest 
-                    docker push silentmobius/details-app:latest
+                    sudo docker login -u silentmobius -p m4k3!Tw0rk 
+                    sudo docker tag details-app:latest silentmobius/details-app:latest 
+                    sudo docker push silentmobius/details-app:latest
                 ''' 
             }
         }
