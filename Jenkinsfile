@@ -1,33 +1,24 @@
 pipeline {
     agent any
     stages {
-        stage('Setup') {
-            steps {
-                script {
-                    sh '''
-                        sudo apt-get update
-                        sudo apt-get install -y python3.12 python3.12-venv python3.12-dev
-                    '''
-                    // Install Poetry
-                    sh '''
-                        pip install --upgrade pip
-                        pip install poetry
-                    '''
-                    
-                    // Create and install dependencies using Poetry
-                    sh '''
-                        poetry env use python3.12
-                        poetry install
-                    '''
-                }
+        stage('Pre-Build'){
+            steps{
+                echo 'Checking pre-requisites'
+                sleep 2
+                sh'''
+                    sudo apt-get update
+                    sudo apt-get install -y wget curl python3 python3-pip python3-pep8 python3-flask pipenv pylint pipx
+		            pipx install pyinstaller
+                '''
             }
         }
+
         stage('Linter') {
             steps {
                 script {
                     // Run linter using Poetry environment
                     sh '''
-                        poetry run pylint --disable=missing-module-docstring,missing-function-docstring src/details/app.py
+                        pylint --disable=missing-module-docstring,missing-function-docstring src/details/app.py
                     '''
                 }
             }
@@ -37,7 +28,7 @@ pipeline {
                 script {
                     // Build using Poetry environment
                     sh '''
-                        poetry run pyinstaller src/details/app.py --onefile
+                        pyinstaller src/details/app.py --onefile
                     '''
                 }
             }
