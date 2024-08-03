@@ -1,5 +1,9 @@
 pipeline {
     agent {label 'workers'} 
+    environment {
+        POETRY_HOME = "$HOME/.poetry"
+        VENV_PATH = "$HOME/.cache/pypoetry/virtualenvs/details-app-mhtNVUmb-py3.12"
+    }
     stages {
         
         stage('Pre-Build'){
@@ -10,6 +14,7 @@ pipeline {
                     export PATH=$PATH:~/.local/bin
                     sudo apt-get update
                     sudo apt-get install -y wget curl python3 python3-pip python3-pep8 python3-flask pipenv pylint
+                    sudo pip install flask
                 '''
 
             }
