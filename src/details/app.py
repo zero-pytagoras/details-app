@@ -14,6 +14,6 @@ def index():
     """
     form = connectionForm()
     if request.method == 'POST':
-        contact_info = {'email': request.form.get('Email'), 'name': request.form.get('Name')}
+        {'email': request.form.get('Email'), 'name': request.form.get('Name')}
         return redirect('/')
     return render_template('index.html', form=form)
