@@ -6,7 +6,7 @@ pipeline {
                 script {
                     sh '''
                         sudo apt-get update
-                        sudo apt-get install -y python3 python3-venv
+                        sudo apt-get install -y python3.11 python3.11-venv
                     '''
                 }
             }
@@ -16,7 +16,7 @@ pipeline {
                 script {
                     sh '''
                         # Create virtual environment
-                        python3 -m venv venv
+                        python3.11 -m venv venv
                         # Activate virtual environment
                         . venv/bin/activate
                         # Upgrade pip and install Poetry
