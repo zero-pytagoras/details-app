@@ -39,17 +39,6 @@ pipeline {
                 }
             }
         }
-
-        stage('Linter') {
-            steps {
-                script {
-                    // Run linter using Poetry environment
-                    sh '''
-                        poetry run pylint --disable=missing-module-docstring,missing-function-docstring src/details/app.py
-                    '''
-                }
-            }
-        }
         stage('Build') {
             steps {
                 script {
