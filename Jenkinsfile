@@ -1,10 +1,5 @@
 pipeline {
-    
-    agent {
-        docker {
-            image 'ubuntu:20.04' // Use an Ubuntu base image
-        }
-    }
+    agent {label 'hello'} 
     stages {
         
         stage('Pre-Build'){
