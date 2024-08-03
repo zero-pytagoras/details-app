@@ -26,6 +26,18 @@ pipeline {
                 }
             }
         }
+        stage('Regenerate Lock File') {
+            steps {
+                script {
+                    sh '''
+                        # Activate virtual environment
+                        . venv/bin/activate
+                        # Regenerate poetry.lock file if pyproject.toml changed
+                        poetry lock --no-update
+                    '''
+                }
+            }
+        }
         stage('Install Dependencies') {
             steps {
                 script {
