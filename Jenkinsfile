@@ -5,10 +5,6 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        # Synchronize the system clock
-                        sudo apt-get install -y ntpdate
-                        sudo ntpdate pool.ntp.org
-
                         # Update package lists
                         sudo apt-get update
 
