@@ -44,7 +44,9 @@ pipeline {
                 script {
                     // Build using Poetry environment
                     sh '''
-                        pyinstaller src/details/app.py --onefile
+                        export PATH=$PATH:~/.local/bin
+                        pyinstaller app.py
+
                     '''
                 }
             }
