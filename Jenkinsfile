@@ -6,8 +6,22 @@ pipeline {
                 script {
                     sh '''
                         sudo apt-get update
-                        sudo apt-get install -y python3 python3-pip python3-venv
-                        pip3 install poetry
+                        sudo apt-get install -y python3 python3-venv
+                    '''
+                }
+            }
+        }
+        stage('Create Virtual Environment and Install Poetry') {
+            steps {
+                script {
+                    sh '''
+                        # Create virtual environment
+                        python3 -m venv venv
+                        # Activate virtual environment
+                        . venv/bin/activate
+                        # Upgrade pip and install Poetry
+                        pip install --upgrade pip
+                        pip install poetry
                     '''
                 }
             }
@@ -16,6 +30,8 @@ pipeline {
             steps {
                 script {
                     sh '''
+                        # Activate virtual environment
+                        . venv/bin/activate
                         # Install dependencies using Poetry
                         poetry install
                     '''
@@ -26,6 +42,8 @@ pipeline {
             steps {
                 script {
                     sh '''
+                        # Activate virtual environment
+                        . venv/bin/activate
                         # List spelling mistakes and output to a file
                         aspell list < README.md > spelling_errors.txt
                         
@@ -44,12 +62,11 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    // Build using Poetry environment
                     sh '''
-                        # Ensure Poetry is available
-                        export PATH="$HOME/.local/bin:$PATH"
+                        # Activate virtual environment
+                        . venv/bin/activate
                         # Use Poetry to run PyInstaller
-                        poetry run pyinstaller app.py
+                        poetry run pyinstaller src/details/app.py --onefile
                     '''
                 }
             }
@@ -57,8 +74,10 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    // Test using Poetry environment
                     sh '''
+                        # Activate virtual environment
+                        . venv/bin/activate
+                        # Test using Poetry environment
                         poetry run pytest
                     '''
                 }
