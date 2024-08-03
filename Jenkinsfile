@@ -1,42 +1,47 @@
 pipeline {
-    agent { label 'workers' } // needs to have ssh agent
+    agent any
     stages {
         stage('Setup') {
             steps {
                 script {
-                    // Ensure Python and necessary tools are installed
+                    // Install Poetry
+                    sh 'pip install poetry'
+                    
+                    // Create and install dependencies using Poetry
                     sh '''
-                        python3 -m pip install --upgrade pip
-                        pip install pylint pyinstaller pytest
+                        poetry install
                     '''
                 }
             }
         }
         stage('Linter') {
             steps {
-                echo 'Static code analysis check'
-                sleep 1
-                sh '''
-                    pylint --disable=missing-module-docstring,missing-function-docstring src/details/app.py
-                '''
+                script {
+                    // Run linter using Poetry environment
+                    sh '''
+                        poetry run pylint --disable=missing-module-docstring,missing-function-docstring src/details/app.py
+                    '''
+                }
             }
         }
         stage('Build') {
             steps {
-                echo 'Building the Project'
-                sleep 1
-                sh '''
-                    pyinstaller app.py --onefile  # Add -y if needed
-                '''
+                script {
+                    // Build using Poetry environment
+                    sh '''
+                        poetry run pyinstaller src/details/app.py --onefile
+                    '''
+                }
             }
         }
         stage('Test') {
             steps {
-                echo 'Testing'
-                sleep 1
-                sh '''
-                    python3 -m pytest
-                '''
+                script {
+                    // Test using Poetry environment
+                    sh '''
+                        poetry run pytest
+                    '''
+                }
             }
         }
     }
