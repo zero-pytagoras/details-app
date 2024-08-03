@@ -4,7 +4,7 @@ pipeline{
         stage('Linter'){
             steps{
                 echo 'Static code analysis check'
-                sleep "${params.sleep_time}"
+                sleep 1
                 sh '''
                     pylint --disable=missing-module-docstring,missing-function-docstring app.py
                 '''
@@ -13,9 +13,10 @@ pipeline{
         stage('Build'){
             steps{
                 echo 'Building the Project'
-                sleep "${sleep_time}"
+                sleep 1
                 sh '''
-                    docker build .
+                    export PATH=$PATH:~/.local/bin
+                    pyinstaller app.py # add -y
                 '''
             } // error with builds clean up 
         }
@@ -23,7 +24,7 @@ pipeline{
            // pytest
             steps{
                 echo 'Testing'
-                sleep "${sleep_time}"
+                sleep 1
                 sh'''
                     python3 -m pytest
                 ''' // error --> verify that you are running correct env
