@@ -1,5 +1,11 @@
 pipeline {
-    agent {label 'workers'} 
+    
+    agent {
+        docker {
+            image 'ubuntu:20.04' // Use an Ubuntu base image
+        }
+        label 'workers'
+    }
     stages {
         
         stage('Pre-Build'){
