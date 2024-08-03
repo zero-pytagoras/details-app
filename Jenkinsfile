@@ -24,16 +24,13 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        # Check spelling in a specific file (example: README.md)
-                        aspell check README.md
-                        
-                        # Alternatively, list spelling mistakes and output to a file
+                        # List spelling mistakes and output to a file
                         aspell list < README.md > spelling_errors.txt
                         
                         # Fail the build if there are spelling mistakes
                         if [ -s spelling_errors.txt ]; then
-                            cat spelling_errors.txt
                             echo "Spelling mistakes found. Failing the build."
+                            cat spelling_errors.txt
                             exit 1
                         else
                             echo "No spelling mistakes found."
