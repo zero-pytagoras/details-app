@@ -14,9 +14,32 @@ pipeline {
                     export PATH=$PATH:~/.local/bin
                     sudo apt-get update
                     sudo apt-get install -y wget curl python3 python3-pip python3-pep8 python3-flask pipenv pylint
-                    sudo apt-get install poetry
+                    sudo apt-get install -y aspell
                 '''
 
+            }
+        }
+
+        stage('Spell Check') {
+            steps {
+                script {
+                    sh '''
+                        # Check spelling in a specific file (example: README.md)
+                        aspell check README.md
+                        
+                        # Alternatively, list spelling mistakes and output to a file
+                        aspell list < README.md > spelling_errors.txt
+                        
+                        # Fail the build if there are spelling mistakes
+                        if [ -s spelling_errors.txt ]; then
+                            cat spelling_errors.txt
+                            echo "Spelling mistakes found. Failing the build."
+                            exit 1
+                        else
+                            echo "No spelling mistakes found."
+                        fi
+                    '''
+                }
             }
         }
 
