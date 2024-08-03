@@ -17,7 +17,7 @@ pipeline {
                 echo 'Static code analysis check'
                 sleep 1
                 sh '''
-                    pylint --disable=missing-module-docstring,missing-function-docstring /src/details/app.py
+                    pylint --disable=missing-module-docstring,missing-function-docstring src/details/app.py
                 '''
             }
         }
