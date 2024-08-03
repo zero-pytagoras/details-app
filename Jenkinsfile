@@ -11,8 +11,10 @@ pipeline {
                 echo 'Checking pre-requisites'
                 sleep 2
                 sh'''
-                    export PATH=$PATH:$POETRY_HOME/bin
-                    poetry install
+                    export PATH=$PATH:~/.local/bin
+                    sudo apt-get update
+                    sudo apt-get install -y wget curl python3 python3-pip python3-pep8 python3-flask pipenv pylint
+                    sudo poetry install
                 '''
 
             }
@@ -23,7 +25,6 @@ pipeline {
                 script {
                     // Run linter using Poetry environment
                     sh '''
-                        export PATH=$PATH:$VENV_PATH/bin
                         poetry run pylint --disable=missing-module-docstring,missing-function-docstring src/details/app.py
                     '''
                 }
