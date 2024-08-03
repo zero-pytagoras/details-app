@@ -1,6 +1,7 @@
 pipeline {
-    agent any
+    agent {label 'workers'} 
     stages {
+        
         stage('Pre-Build'){
             steps{
                 echo 'Checking pre-requisites'
