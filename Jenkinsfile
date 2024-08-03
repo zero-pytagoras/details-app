@@ -1,35 +1,49 @@
-pipeline{
-    agent {label 'workers'} // needs to have ssh agent
-    stages{
-        stage('Linter'){
-            steps{
+pipeline {
+    agent { label 'workers' } // needs to have ssh agent
+    stages {
+        stage('Setup') {
+            steps {
+                script {
+                    // Ensure Python and necessary tools are installed
+                    sh '''
+                        python3 -m pip install --upgrade pip
+                        pip install pylint pyinstaller pytest
+                    '''
+                }
+            }
+        }
+        stage('Linter') {
+            steps {
                 echo 'Static code analysis check'
                 sleep 1
                 sh '''
                     pylint --disable=missing-module-docstring,missing-function-docstring app.py
                 '''
-            } // error app syntax --> fix the strings in app or bypass them
+            }
         }
-        stage('Build'){
-            steps{
+        stage('Build') {
+            steps {
                 echo 'Building the Project'
                 sleep 1
                 sh '''
-                    export PATH=$PATH:~/.local/bin
-                    pyinstaller app.py # add -y
+                    pyinstaller app.py --onefile  # Add -y if needed
                 '''
-            } // error with builds clean up 
-        }
-        stage('Test'){
-           // pytest
-            steps{
-                echo 'Testing'
-                sleep 1
-                sh'''
-                    python3 -m pytest
-                ''' // error --> verify that you are running correct env
             }
         }
-
+        stage('Test') {
+            steps {
+                echo 'Testing'
+                sleep 1
+                sh '''
+                    python3 -m pytest
+                '''
+            }
+        }
+    }
+    post {
+        always {
+            // Clean up workspace
+            cleanWs()
+        }
     }
 }
