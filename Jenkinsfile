@@ -14,7 +14,9 @@ pipeline {
                     export PATH=$PATH:~/.local/bin
                     sudo apt-get update
                     sudo apt-get install -y wget curl python3 python3-pip python3-pep8 python3-flask pipenv pylint
-                    sudo poetry install
+                    sudo apt install pipx
+                    pipx install poetry
+                    sudo apt-get install poetry
                 '''
 
             }
