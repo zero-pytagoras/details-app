@@ -1,25 +1,27 @@
 pipeline {
-    agent {label 'workers'} 
-    environment {
-        POETRY_HOME = "$HOME/.poetry"
-        VENV_PATH = "$HOME/.cache/pypoetry/virtualenvs/details-app-mhtNVUmb-py3.12"
-    }
+    agent any
     stages {
-        
-        stage('Pre-Build'){
-            steps{
-                echo 'Checking pre-requisites'
-                sleep 2
-                sh'''
-                    export PATH=$PATH:~/.local/bin
-                    sudo apt-get update
-                    sudo apt-get install -y wget curl python3 python3-pip python3-pep8 python3-flask pipenv pylint
-                    sudo apt-get install -y aspell
-                '''
-
+        stage('Pre-Build') {
+            steps {
+                script {
+                    sh '''
+                        sudo apt-get update
+                        sudo apt-get install -y python3 python3-pip python3-venv
+                        pip3 install poetry
+                    '''
+                }
             }
         }
-
+        stage('Install Dependencies') {
+            steps {
+                script {
+                    sh '''
+                        # Install dependencies using Poetry
+                        poetry install
+                    '''
+                }
+            }
+        }
         stage('Spell Check') {
             steps {
                 script {
@@ -44,9 +46,10 @@ pipeline {
                 script {
                     // Build using Poetry environment
                     sh '''
-                        export PATH=$PATH:~/.local/bin
-                        pyinstaller app.py
-
+                        # Ensure Poetry is available
+                        export PATH="$HOME/.local/bin:$PATH"
+                        # Use Poetry to run PyInstaller
+                        poetry run pyinstaller app.py
                     '''
                 }
             }
@@ -64,7 +67,6 @@ pipeline {
     }
     post {
         always {
-            // Clean up workspace
             cleanWs()
         }
     }
