@@ -4,7 +4,6 @@ pipeline {
         docker {
             image 'ubuntu:20.04' // Use an Ubuntu base image
         }
-        label 'workers'
     }
     stages {
         
