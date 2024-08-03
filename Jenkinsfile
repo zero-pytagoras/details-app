@@ -9,6 +9,7 @@ pipeline {
                     
                     // Create and install dependencies using Poetry
                     sh '''
+                        poetry env use python3.11
                         poetry install
                     '''
                 }
