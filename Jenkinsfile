@@ -4,14 +4,23 @@ pipeline {
         stage('Setup') {
             steps {
                 script {
-                    // Install Poetry
-                    sh 'pip install poetry'
-                    
-                    // Create and install dependencies using Poetry
+                    // Install Python 3.11 if not already installed
                     sh '''
+                        sudo apt-get update
+                        sudo apt-get install -y python3.11 python3.11-venv python3.11-dev
+                    '''
+                    
+                    // Set Python 3.11 as default for the current session
+                    sh '''
+                        python3.11 -m pip install --upgrade pip
+                        pip install poetry
+                    '''
+                    
+                    // Use Poetry to create a new virtual environment with Python 3.11
+                    sh '''
+                        poetry env use python3.11
                         poetry install
                     '''
-                }
             }
         }
         stage('Linter') {
