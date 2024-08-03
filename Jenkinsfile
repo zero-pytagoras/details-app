@@ -5,9 +5,16 @@ pipeline {
             steps {
                 script {
                     sh '''
+                        # Synchronize the system clock
+                        sudo apt-get install -y ntpdate
+                        sudo ntpdate pool.ntp.org
+
+                        # Update package lists
                         sudo apt-get update
-                        sudo apt-get install -y wget curl python3 python3-pip python3-pep8 python3-flask pypenv pylint python3-pipx
-                        pypx instal pyinstaller 
+
+                        # Install required packages
+                        sudo apt-get install -y wget curl python3 python3-pip python3-pep8 python3-flask pipenv pylint python3-pipx pyinstaller
+
                     '''
                 }
             }
