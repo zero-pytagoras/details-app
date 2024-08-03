@@ -4,7 +4,7 @@ pipeline{
         stage('Linter'){
             steps{
                 echo 'Static code analysis check'
-                sleep "${sleep_time}"
+                sleep "${params.sleep_time}"
                 sh '''
                     pylint --disable=missing-module-docstring,missing-function-docstring app.py
                 '''
