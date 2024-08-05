@@ -9,11 +9,8 @@ db = SQLAlchemy(app)
 
 @app.route('/',methods=['GET', 'POST'])
 def index():
-    """
-    docstring?
-    """
     form = connectionForm()
     if request.method == 'POST':
-        {'email': request.form.get('Email'), 'name': request.form.get('Name')}
+        contact_info = {'email': request.form.get('Email'), 'name': request.form.get('Name')}
         return redirect('/')
     return render_template('index.html', form=form)
