@@ -9,20 +9,18 @@ pipeline {
                         sudo apt-get update
                         sudo apt-get install -y wget curl python3 python3-pip python3-venv shellcheck
 
-                        # Create a virtual environment
-                        python3 -m venv venv
+                        # Install Poetry
+                        curl -sSL https://install.python-poetry.org | python3 -
 
-                        # Activate the virtual environment
-                        . venv/bin/activate
+                        # Add Poetry to PATH
+                        export PATH="$HOME/.local/bin:$PATH"
 
-                        # Install pipx and pyinstaller
-                        pip install --upgrade pip
-                        pip install pipx
-                        pipx install pyinstaller
+                        # Create a new virtual environment and install dependencies using Poetry
+                        poetry config virtualenvs.create true
+                        poetry config virtualenvs.in-project true
 
-                        # Upgrade pip and install Python dependencies from requirements.txt
-                        pip install --upgrade pip
-                        pip install -r requirements.txt
+                        # Install dependencies using Poetry
+                        poetry install
                     '''
                 }
             }
