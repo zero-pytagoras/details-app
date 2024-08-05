@@ -58,10 +58,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        # Check all shell scripts in the repository with Shellcheck
                         shellcheck /home/master/projects/details-app-1/build.sh
-
-                        # Shellcheck will automatically fail the build if it finds issues
                     '''
                 }
             }
