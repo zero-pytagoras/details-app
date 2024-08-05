@@ -1,7 +1,6 @@
 # Jenkins Pipeline Configuration
 ![image](https://github.com/user-attachments/assets/d5ba7c2d-6c93-4f5e-ba47-39ddddeaf339)
 
-![image](https://github.com/user-attachments/assets/af981fe3-ef5b-4c34-8dc7-1ed3b2beafeb)
 
 ## Description
 
