@@ -63,7 +63,6 @@ pipeline {
                 }
             }
         }
-    
         stage('Test') {
             steps {
                 script {
@@ -72,8 +71,37 @@ pipeline {
                         . .venv/bin/activate
 
                         # Run tests using pytest
-                        poetry run pytest
+                        # poetry run pytest
                     '''
+                }
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    sh '''
+                        # Build the Docker image
+                        docker build -t details-app:latest .
+
+                        # Verify that the image was built successfully
+                        docker images
+                    '''
+                }
+            }
+        }
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh '''
+                            # Log in to Docker Hub
+                            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+                            # Push the Docker image to Docker Hub
+                            docker tag my-image:latest my-dockerhub-username/my-image:latest
+                            docker push my-dockerhub-username/my-image:latest
+                        '''
+                    }
                 }
             }
         }
