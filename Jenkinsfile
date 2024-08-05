@@ -19,14 +19,12 @@ pipeline {
                         poetry config virtualenvs.create true
                         poetry config virtualenvs.in-project true
 
-                        # Check if poetry.lock needs to be updated
                         if [ -f "poetry.lock" ]; then
                             poetry lock --no-update
                         else
                             echo "poetry.lock not found. Skipping lock file regeneration."
                         fi
 
-                        # Install dependencies using Poetry
                         poetry install
                     '''
                 }
@@ -36,13 +34,10 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        # Activate the virtual environment
                         . .venv/bin/activate
-
-                        # Run spellcheck using Aspell
                         aspell list < README.md > spelling_errors.txt
                         
-                        # Fail the build if there are spelling mistakes
+                        # fail the build if there are spelling mistakes
                         if [ -s spelling_errors.txt ]; then
                             echo "Spelling mistakes found. Failing the build."
                             cat spelling_errors.txt
@@ -67,10 +62,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        # Activate the virtual environment
                         . .venv/bin/activate
-
-                        # Run tests using pytest
                         # poetry run pytest
                     '''
                 }
@@ -80,28 +72,8 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        # Build the Docker image
                         docker build -t details-app:latest .
-
-                        # Verify that the image was built successfully
-                        docker images
                     '''
-                }
-            }
-        }
-        stage('Push Docker Image') {
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        sh '''
-                            # Log in to Docker Hub
-                            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-
-                            # Push the Docker image to Docker Hub
-                            docker tag my-image:latest my-dockerhub-username/my-image:latest
-                            docker push my-dockerhub-username/my-image:latest
-                        '''
-                    }
                 }
             }
         }
