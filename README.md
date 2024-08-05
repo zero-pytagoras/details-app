@@ -1,6 +1,6 @@
 # Details App
 
-Applications that can store your personal details and list all the written users on html
+Applications that can store your personal details and list all the written users on HTML
 
 ### Requirements:
 
@@ -8,10 +8,10 @@ Applications that can store your personal details and list all the written users
 - SQLite3
 - Bash Shell
 - Docker
-    - Postgresql container needed
+    - POSTGRESQL container needed
 - Docker compose for multi container environment
 - k3s for simple testing
-- Virtualbox for k8s setup for more deep dive into world of container orchestrations
+- Virtual-box for k8s setup for more deep dive into world of container orchestrations
 
 ### Install
 
