@@ -1,4 +1,5 @@
 # Jenkins Pipeline Configuration
+![image](https://github.com/user-attachments/assets/af981fe3-ef5b-4c34-8dc7-1ed3b2beafeb)
 
 ## Description
 
@@ -59,7 +60,7 @@ The Jenkins pipeline automates the setup of the development environment, perform
 
 ## Installation and Running Instructions
 
-1. Clone the repository:
+Clone the repository:
 
    ```sh
    git clone https://github.com/nastyak6/details-app/tree/nastya
