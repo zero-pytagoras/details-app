@@ -1,16 +1,6 @@
 pipeline {
     agent any
     stages {
-        stage('Pre-Build') {
-            steps {
-                script {
-                    sh '''
-                        sudo apt-get update
-                        sudo apt-get install -y wget curl python3 python3-pip python3-pep8 python3-flask pypenv pylint python3-pipx
-                    '''
-                }
-            }
-        }
         stage('Create Virtual Environment and Install Poetry') {
             steps {
                 script {
