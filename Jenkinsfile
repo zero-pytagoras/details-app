@@ -58,7 +58,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        shellcheck /home/master/projects/details-app-1/build.sh
+                        shellcheck build.sh
                     '''
                 }
             }
