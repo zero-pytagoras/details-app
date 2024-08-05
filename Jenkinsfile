@@ -12,7 +12,8 @@ pipeline {
                         # Upgrade pip and install Poetry
                         pip install --upgrade pip
                         pip install poetry
-                        sudo apt-get install -y wget curl python3 python3-pip python3-pep8 python3-flask pypenv pylint python3-pipx
+                        sudo apt-get install -y wget curl python3 python3-pip python3-pep8 python3-flask pylint
+                        pip install pipx
                         pipx install pyinstaller
                     '''
                 }
