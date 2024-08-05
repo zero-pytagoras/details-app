@@ -15,9 +15,16 @@ pipeline {
                         # Add Poetry to PATH
                         export PATH="$HOME/.local/bin:$PATH"
 
-                        # Create a new virtual environment and install dependencies using Poetry
+                        # Configure Poetry to create and use virtual environments in the project directory
                         poetry config virtualenvs.create true
                         poetry config virtualenvs.in-project true
+
+                        # Check if poetry.lock needs to be updated
+                        if [ -f "poetry.lock" ]; then
+                            poetry lock --no-update
+                        else
+                            echo "poetry.lock not found. Skipping lock file regeneration."
+                        fi
 
                         # Install dependencies using Poetry
                         poetry install
