@@ -15,6 +15,11 @@ pipeline {
                         # Activate the virtual environment
                         . venv/bin/activate
 
+                        # Install pipx and pyinstaller
+                        pip install --upgrade pip
+                        pip install pipx
+                        pipx install pyinstaller
+
                         # Upgrade pip and install Python dependencies from requirements.txt
                         pip install --upgrade pip
                         pip install -r requirements.txt
