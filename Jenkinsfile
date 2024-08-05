@@ -64,6 +64,19 @@ pipeline {
             }
         }
     }
+        stage('Test') {
+            steps {
+                script {
+                    sh '''
+                        # Activate the virtual environment
+                        . .venv/bin/activate
+
+                        # Run tests using pytest
+                        poetry run pytest
+                    '''
+                }
+            }
+        }
     post {
         always {
             cleanWs()
